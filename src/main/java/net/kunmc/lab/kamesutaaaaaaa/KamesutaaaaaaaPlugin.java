@@ -8,6 +8,7 @@ import net.kunmc.lab.configlib.ConfigCommandBuilder;
 import net.kunmc.lab.kamesutaaaaaaa.command.MainCommand;
 import net.kunmc.lab.kamesutaaaaaaa.packet.FakeAppearancePacketAdapter;
 import net.kunmc.lab.kamesutaaaaaaa.packet.InjectPlayerInfoPacketAdapter;
+import net.kunmc.lab.kamesutaaaaaaa.packet.PreventInvalidEntityAttackPacketAdapter;
 import net.kunmc.lab.kamesutaaaaaaa.task.AppleTask;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_16_R3.PacketPlayOutSpawnEntity;
@@ -41,6 +42,7 @@ public final class KamesutaaaaaaaPlugin extends JavaPlugin {
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
         manager.addPacketListener(new FakeAppearancePacketAdapter(this, config));
         manager.addPacketListener(new InjectPlayerInfoPacketAdapter(this, config));
+        manager.addPacketListener(new PreventInvalidEntityAttackPacketAdapter(this, config));
 
         new AppleTask(config).runTaskTimer(this, 0, 20);
     }

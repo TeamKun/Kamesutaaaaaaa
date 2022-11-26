@@ -36,7 +36,8 @@ public class FakeAppearancePacketAdapter extends PacketAdapter {
 
         if (event.getPacketType() == PacketType.Play.Server.SPAWN_ENTITY) {
             forSpawnEntity(event);
-        } else {
+        }
+        if (event.getPacketType() == PacketType.Play.Server.SPAWN_ENTITY_LIVING) {
             forSpawnLiving(event);
         }
     }
