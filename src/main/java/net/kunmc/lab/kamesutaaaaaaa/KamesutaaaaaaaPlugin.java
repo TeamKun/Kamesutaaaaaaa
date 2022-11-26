@@ -10,13 +10,12 @@ import net.kunmc.lab.kamesutaaaaaaa.packet.FakeAppearancePacketAdapter;
 import net.kunmc.lab.kamesutaaaaaaa.packet.InjectPlayerInfoPacketAdapter;
 import net.kunmc.lab.kamesutaaaaaaa.task.AppleTask;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_16_R3.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_16_R3.PacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_16_R3.PlayerList;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -50,12 +49,11 @@ public final class KamesutaaaaaaaPlugin extends JavaPlugin {
         PlayerList playerList = ((CraftServer) Bukkit.getServer()).getHandle()
                                                                   .getServer()
                                                                   .getPlayerList();
-        List<LivingEntity> targets = Bukkit.selectEntities(Bukkit.getConsoleSender(), "@e")
-                                           .stream()
-                                           .filter(x -> x instanceof LivingEntity)
-                                           .map(LivingEntity.class::cast)
-                                           .filter(x -> config.entityTypeToEnabledMap.getOrDefault(x.getType(), false))
-                                           .collect(Collectors.toList());
+
+        List<Entity> targets = Bukkit.selectEntities(Bukkit.getConsoleSender(), "@e")
+                                     .stream()
+                                     .filter(x -> config.entityTypeToEnabledMap.getOrDefault(x.getType(), false))
+                                     .collect(Collectors.toList());
 
         playerList.sendAll(new PacketPlayOutEntityDestroy(targets.stream()
                                                                  .mapToInt(Entity::getEntityId)
@@ -65,9 +63,9 @@ public final class KamesutaaaaaaaPlugin extends JavaPlugin {
             @Override
             public void run() {
                 targets.stream()
-                       .map(x -> ((CraftLivingEntity) x).getHandle())
+                       .map(x -> ((CraftEntity) x).getHandle())
                        .forEach(x -> {
-                           playerList.sendAll(new PacketPlayOutSpawnEntityLiving(x));
+                           playerList.sendAll(new PacketPlayOutSpawnEntity(x));
                        });
             }
         }.runTaskLater(config.plugin(), 1);

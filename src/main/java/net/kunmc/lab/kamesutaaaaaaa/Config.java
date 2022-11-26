@@ -40,6 +40,12 @@ public class Config extends BaseConfig {
               .forEach(x -> {
                   entityTypeToEnabledMap.put(x, true);
               });
+        entityTypeToEnabledMap.put(EntityType.ARROW, true);
+        entityTypeToEnabledMap.put(EntityType.SPECTRAL_ARROW, true);
+        entityTypeToEnabledMap.put(EntityType.WITHER_SKULL, true);
+        entityTypeToEnabledMap.put(EntityType.ENDER_CRYSTAL, true);
+        entityTypeToEnabledMap.put(EntityType.ENDER_SIGNAL, true);
+        entityTypeToEnabledMap.put(EntityType.ENDER_PEARL, true);
 
         onInitialize(this::changeResourcePackUrl);
     }
