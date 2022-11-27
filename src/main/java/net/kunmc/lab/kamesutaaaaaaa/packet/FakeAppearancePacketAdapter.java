@@ -43,7 +43,6 @@ public class FakeAppearancePacketAdapter extends PacketAdapter {
     }
 
     private void forSpawnEntity(PacketEvent event) {
-
         try {
             Class<PacketPlayOutSpawnEntity> packetClass = PacketPlayOutSpawnEntity.class;
 
@@ -84,7 +83,6 @@ public class FakeAppearancePacketAdapter extends PacketAdapter {
     }
 
     private void forSpawnLiving(PacketEvent event) {
-
         try {
             Class<PacketPlayOutSpawnEntityLiving> packetClass = PacketPlayOutSpawnEntityLiving.class;
 
