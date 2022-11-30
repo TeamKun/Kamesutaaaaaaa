@@ -41,10 +41,6 @@ public class AppleTask extends BukkitRunnable {
                                                          .map(Item.class::cast)
                                                          .filter(y -> y.getItemStack()
                                                                        .getType() == Material.APPLE)
-                                                         .peek(x -> {
-                                                             System.out.println(x);
-                                                             System.out.println(x.isValid());
-                                                         })
                                                          .filter(Entity::isValid)
                                                          .findFirst();
 
