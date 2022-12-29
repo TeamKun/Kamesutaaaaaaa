@@ -10,6 +10,7 @@ import net.kunmc.lab.kamesutaaaaaaa.packet.FakeAppearancePacketAdapter;
 import net.kunmc.lab.kamesutaaaaaaa.packet.InjectPlayerInfoPacketAdapter;
 import net.kunmc.lab.kamesutaaaaaaa.packet.PreventInvalidEntityAttackPacketAdapter;
 import net.kunmc.lab.kamesutaaaaaaa.task.AppleTask;
+import net.kunmc.lab.kamesutaaaaaaa.task.SetTargetTask;
 import net.minecraft.server.v1_16_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_16_R3.PacketPlayOutSpawnEntity;
 import net.minecraft.server.v1_16_R3.PlayerList;
@@ -45,6 +46,7 @@ public final class KamesutaaaaaaaPlugin extends JavaPlugin {
         manager.addPacketListener(new PreventInvalidEntityAttackPacketAdapter(this, config));
 
         new AppleTask(config).runTaskTimer(this, 0, 20);
+        new SetTargetTask(config).runTaskTimer(this, 0, 4);
     }
 
     public void updateEntitiesAppearance() {

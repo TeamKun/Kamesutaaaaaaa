@@ -3,6 +3,7 @@ package net.kunmc.lab.kamesutaaaaaaa;
 import net.kunmc.lab.configlib.BaseConfig;
 import net.kunmc.lab.configlib.Value;
 import net.kunmc.lab.configlib.value.*;
+import net.kunmc.lab.configlib.value.collection.UUIDSetValue;
 import net.kunmc.lab.configlib.value.map.Enum2BooleanMapValue;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -21,6 +23,9 @@ public class Config extends BaseConfig {
     public final StringValue name = new StringValue("Kamesuta");
     public final Enum2BooleanMapValue<EntityType> entityTypeToEnabledMap = new Enum2BooleanMapValue<>();
     public final BooleanValue eatApple = new BooleanValue(true);
+    public final BooleanValue enableSetTarget = new BooleanValue(true);
+    public final UUIDSetValue targetCandidates = new UUIDSetValue(new ArrayList<>(Bukkit.getOnlinePlayers()));
+    public final IntegerValue changeTargetIntervalTick = new IntegerValue(1200, 1, Integer.MAX_VALUE);
     public final StringValue title = new StringValue("かぁぁめすたぁぁぁ！！");
     public final StringValue subtitle = new StringValue(ChatColor.AQUA + "提供: " + ChatColor.GREEN + "KUN Lab(Marutaso)");
     public final VectorValue artOffset = new VectorValue(new Vector(60, 30, 103));
