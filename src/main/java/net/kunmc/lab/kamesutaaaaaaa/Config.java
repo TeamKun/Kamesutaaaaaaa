@@ -1,8 +1,10 @@
 package net.kunmc.lab.kamesutaaaaaaa;
 
+import com.google.common.collect.Lists;
 import net.kunmc.lab.configlib.BaseConfig;
 import net.kunmc.lab.configlib.Value;
 import net.kunmc.lab.configlib.value.*;
+import net.kunmc.lab.configlib.value.collection.StringListValue;
 import net.kunmc.lab.configlib.value.collection.UUIDSetValue;
 import net.kunmc.lab.configlib.value.map.Enum2BooleanMapValue;
 import org.bukkit.Bukkit;
@@ -30,6 +32,9 @@ public class Config extends BaseConfig {
     public final StringValue subtitle = new StringValue(ChatColor.AQUA + "提供: " + ChatColor.GREEN + "KUN Lab(Marutaso)");
     public final VectorValue artOffset = new VectorValue(new Vector(60, 30, 103));
     public final DoubleValue artScale = new DoubleValue(0.8);
+    public final StringListValue explainTexts = new StringListValue(Lists.newArrayList("かぁぁめすたぁぁぁ!!プラグイン",
+                                                                                       "全てのモブがかめすたになるよ",
+                                                                                       "りんごを近くに投げると拾い食いして消えるよ"));
     private final StringValue resourcePackUrl = new StringValue(
             "https://cdn.discordapp.com/attachments/747508075753373719/1045313627969835018/KamesutaPluginResourcePack.zip");
     private final StringValue resourcePackSha1 = new StringValue("620b7c7d199cd33efdee5aac869fa363e13366ad");
