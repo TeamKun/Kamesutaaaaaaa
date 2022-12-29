@@ -59,9 +59,12 @@ public final class KamesutaaaaaaaPlugin extends JavaPlugin {
                                      .filter(x -> config.entityTypeToEnabledMap.getOrDefault(x.getType(), false))
                                      .collect(Collectors.toList());
 
-        playerList.sendAll(new PacketPlayOutEntityDestroy(targets.stream()
-                                                                 .mapToInt(Entity::getEntityId)
-                                                                 .toArray()));
+        playerList.players.forEach(x -> {
+            x.playerConnection.sendPacket(new PacketPlayOutEntityDestroy(targets.stream()
+                                                                                .filter(y -> y.getWorld() == x.world.getWorld())
+                                                                                .mapToInt(Entity::getEntityId)
+                                                                                .toArray()));
+        });
 
         new BukkitRunnable() {
             @Override
@@ -69,7 +72,11 @@ public final class KamesutaaaaaaaPlugin extends JavaPlugin {
                 targets.stream()
                        .map(x -> ((CraftEntity) x).getHandle())
                        .forEach(x -> {
-                           playerList.sendAll(new PacketPlayOutSpawnEntity(x));
+                           playerList.players.stream()
+                                             .filter(y -> y.getWorld() == x.getWorld())
+                                             .forEach(y -> {
+                                                 y.playerConnection.sendPacket(new PacketPlayOutSpawnEntity(x));
+                                             });
                        });
             }
         }.runTaskLater(config.plugin(), 1);
