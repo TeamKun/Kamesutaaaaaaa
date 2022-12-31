@@ -59,14 +59,12 @@ public class PreventInvalidEntityAttackPacketAdapter extends PacketAdapter {
     public void onPacketSending(PacketEvent event) {
         PacketPlayOutKickDisconnect packet = ((PacketPlayOutKickDisconnect) event.getPacket()
                                                                                  .getHandle());
-        System.out.println(packet);
         try {
             Field f = PacketPlayOutKickDisconnect.class.getDeclaredField("a");
             f.setAccessible(true);
             IChatBaseComponent message = ((IChatBaseComponent) f.get(packet));
             if (message instanceof AdventureComponent) {
-                String text = ((AdventureComponent) message).getString();
-                System.out.println(text);
+                String text = message.getString();
                 if (text.equals("multiplayer.disconnect.invalid_entity_attacked")) {
                     event.setCancelled(true);
                 }

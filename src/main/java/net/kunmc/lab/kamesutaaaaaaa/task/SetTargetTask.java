@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collections;
@@ -15,8 +16,7 @@ import java.util.stream.Collectors;
 
 public class SetTargetTask extends BukkitRunnable {
     private final Config config;
-    private boolean isFirstRun = true;
-    private int beforeTick = Bukkit.getCurrentTick();
+    private static final String metadataKey = "KamesutaPluginTargetTask";
 
     public SetTargetTask(Config config) {
         this.config = config;
@@ -25,22 +25,9 @@ public class SetTargetTask extends BukkitRunnable {
     @Override
     public void run() {
         if (config.enableSetTarget.isFalse()) {
-            isFirstRun = true;
             return;
         }
 
-        if (isFirstRun) {
-            exec();
-            isFirstRun = false;
-            return;
-        }
-
-        if (Bukkit.getCurrentTick() - beforeTick >= config.changeTargetIntervalTick.value()) {
-            exec();
-        }
-    }
-
-    private void exec() {
         Map<World, List<Player>> worldToTargetPlayerMap = Bukkit.getOnlinePlayers()
                                                                 .stream()
                                                                 .filter(x -> config.targetCandidates.contains(x.getUniqueId()))
@@ -54,10 +41,26 @@ public class SetTargetTask extends BukkitRunnable {
                                   if (candidates.isEmpty()) {
                                       return;
                                   }
-
                                   Collections.shuffle(candidates);
-                                  x.setTarget(candidates.get(0));
+                                  Player candidate = candidates.get(0);
+
+                                  if (!x.hasMetadata(metadataKey)) {
+                                      x.setMetadata(metadataKey,
+                                                    new FixedMetadataValue(config.plugin(), Bukkit.getCurrentTick()));
+                                      x.setTarget(candidate);
+                                      return;
+                                  }
+
+                                  int beforeTick = x.getMetadata(metadataKey)
+                                                    .get(0)
+                                                    .asInt();
+                                  if (Bukkit.getCurrentTick() - beforeTick < config.changeTargetIntervalTick.value()) {
+                                      return;
+                                  }
+
+                                  x.setTarget(candidate);
+                                  x.setMetadata(metadataKey,
+                                                new FixedMetadataValue(config.plugin(), Bukkit.getCurrentTick()));
                               });
-        beforeTick = Bukkit.getCurrentTick();
     }
 }
