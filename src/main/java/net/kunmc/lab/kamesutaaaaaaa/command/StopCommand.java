@@ -23,8 +23,10 @@ public class StopCommand extends Command {
                                               .getPlayerList()
                                               .sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER));
 
-            KamesutaaaaaaaPlugin.getInstance()
-                                .updateEntitiesAppearance();
+            config.kamesutalizeOnStart.ifTrue(() -> {
+                KamesutaaaaaaaPlugin.getInstance()
+                                    .updateEntitiesAppearance();
+            });
 
             ctx.sendSuccess("stop succeed");
         });

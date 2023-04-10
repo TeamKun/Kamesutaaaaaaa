@@ -35,13 +35,15 @@ public class StartCommand extends Command {
                                               .getPlayerList()
                                               .sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER));
 
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    KamesutaaaaaaaPlugin.getInstance()
-                                        .updateEntitiesAppearance();
-                }
-            }.runTaskLater(config.plugin(), 60);
+            config.kamesutalizeOnStart.ifTrue(() -> {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        KamesutaaaaaaaPlugin.getInstance()
+                                            .updateEntitiesAppearance();
+                    }
+                }.runTaskLater(config.plugin(), 60);
+            });
         });
     }
 

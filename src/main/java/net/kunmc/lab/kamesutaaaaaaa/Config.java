@@ -39,6 +39,7 @@ public class Config extends BaseConfig {
             "https://cdn.discordapp.com/attachments/747508075753373719/1045313627969835018/KamesutaPluginResourcePack.zip");
     private final StringValue resourcePackSha1 = new StringValue("620b7c7d199cd33efdee5aac869fa363e13366ad");
     public final FloatValue volume = new FloatValue(0.8F);
+    public final BooleanValue kamesutalizeOnStart = new BooleanValue(true);
 
     public Config(@NotNull Plugin plugin) {
         super(plugin);
