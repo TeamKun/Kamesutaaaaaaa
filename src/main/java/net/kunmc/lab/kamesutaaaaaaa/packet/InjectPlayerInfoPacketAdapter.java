@@ -11,7 +11,9 @@ import org.bukkit.plugin.Plugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class InjectPlayerInfoPacketAdapter extends PacketAdapter {
     private final Config config;
@@ -42,13 +44,16 @@ public class InjectPlayerInfoPacketAdapter extends PacketAdapter {
             Field playerInfosField = PacketPlayOutPlayerInfo.class.getDeclaredField("b");
             playerInfosField.setAccessible(true);
             List playerInfos = ((List) playerInfosField.get(packet));
+            List copyPlayerInfos = new ArrayList<>(playerInfos);
+
             Constructor<?> playerInfoConstructor = PacketPlayOutPlayerInfo.class.getDeclaredClasses()[0].getDeclaredConstructors()[0];
-            playerInfos.add(playerInfoConstructor.newInstance(packet,
+            copyPlayerInfos.add(playerInfoConstructor.newInstance(packet,
                                                               new GameProfile(config.kamesutaUuid.value(),
                                                                               config.name.value()),
                                                               10,
                                                               EnumGamemode.SURVIVAL,
                                                               null));
+            playerInfosField.set(packet, copyPlayerInfos);
         } catch (Exception e) {
             e.printStackTrace();
         }
