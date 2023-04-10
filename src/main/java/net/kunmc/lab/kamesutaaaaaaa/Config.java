@@ -59,6 +59,7 @@ public class Config extends BaseConfig {
         entityTypeToEnabledMap.put(EntityType.ENDER_PEARL, true);
 
         onInitialize(this::changeResourcePackUrl);
+        onReload(this::changeResourcePackUrl);
     }
 
     private void changeResourcePackUrl() {
